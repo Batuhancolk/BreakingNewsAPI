@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= newsTitle %>
+    </title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #e63946;
+            --secondary-color: #457b9d;
+            --light-color: #f1faee;
+            --dark-color: #1d3557;
+            --accent-color: #a8dadc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(232, 244, 248, 0.8) 0%, rgba(252, 252, 252, 0.8) 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 30px 20px;
+        }
+
+        /* Header Badge */
+        .news-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 3px 8px rgba(230, 57, 70, 0.3);
+        }
+
+        /* News Title */
+        .news-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            line-height: 1.2;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .news-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        /* News Time */
+        .news-time {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .news-time i {
+            margin-right: 8px;
+            color: var(--primary-color);
+        }
+
+        /* News Card */
+        .news-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            position: relative;
+            border-top: 4px solid var(--primary-color);
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        /* News Content */
+        .news-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .news-content p:first-letter {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            float: left;
+            line-height: 1;
+            padding-right: 10px;
+            padding-top: 4px;
+        }
+
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button i {
+            margin-right: 8px;
+        }
+
+        .back-button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .share-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .share-button.facebook {
+            background-color: #3b5998;
+        }
+
+        .share-button.twitter {
+            background-color: #1da1f2;
+        }
+
+        .share-button.whatsapp {
+            background-color: #25d366;
+        }
+
+        .share-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Reading Time Indicator */
+        .reading-time {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .reading-time i {
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+
+        /* Related News */
+        .related-news {
+            margin-top: 30px;
+        }
+
+        .related-news h3 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        .related-news h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .news-title {
+                font-size: 2rem;
+            }
+
+            .news-card {
+                padding: 20px;
+            }
+
+            .news-content {
+                font-size: 1rem;
+            }
+
+            .news-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .news-title {
+                font-size: 1.6rem;
+            }
+
+            .news-badge {
+                font-size: 0.7rem;
+            }
+
+            .news-content p:first-letter {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="news-badge">
+            <i class="fas fa-bolt"></i> Son Dakika
+        </div>
+
+        <h1 class="news-title">
+            <%= newsTitle %>
+        </h1>
+
+        <div class="news-time">
+            <i class="far fa-clock"></i> Haber Saati: <%= newsTime %>
+        </div>
+
+        <div class="news-card">
+            <div class="news-content">
+                <p>
+                    <%= newsContent %>
+                </p>
+            </div>
+            <div class="news-badge">
+                <p>Kaynak: <a style="color: white;" href="https://www.haberler.com/"
+                        target="_blank">https://www.haberler.com/</a></p>
+            </div>
+
+            <div class="news-footer">
+                <button class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    <a href="/breaking_news">Haberlere Dön</a>
+                </button>
+
+                <div class="share-buttons">
+                    <div class="share-button facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </div>
+                    <div class="share-button twitter">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <div class="share-button whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Paylaşım butonları için event listener
+            document.querySelectorAll('.share-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    // Gerçek bir uygulamada paylaşım fonksiyonları burada olacak
+                    const type = this.classList.contains('facebook') ? 'Facebook' :
+                        this.classList.contains('twitter') ? 'Twitter' : 'WhatsApp';
+                    alert(type + ' ile paylaşılıyor...');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
